@@ -1,6 +1,6 @@
-# SalesForecast
+# sales-forecast
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.6.
+A sales forecast web application leveraging Azure services for data upload, processing, and AI-based predictions, providing both historical and forecasted sales data.
 
 ## Development server
 
