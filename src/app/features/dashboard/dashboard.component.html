@@ -1,0 +1,15 @@
+<div class="w-full h-full flex flex-col justify-center items-center">
+  <h3>Sales Forecast</h3>
+  <mat-card appearance="outlined" class="w-[320px] h-auto">
+    <mat-card-content>
+      <div class="w-full h-full flex flex-col justify-center items-center">
+
+        <p class="text-center">Upload your sales data using this 
+          <button (click)="generateExcel()"><u class="text-blue-700">Excel file template</u></button> 
+          to see your sales forecast for the next 12 months.</p>
+        <button mat-raised-button (click)="uploadFile($event)"><mat-icon>upload</mat-icon>Upload file</button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+</div>

@@ -1,0 +1,1 @@
+export const storeLocations = ['Clark', 'Manila', 'Laguna'];
