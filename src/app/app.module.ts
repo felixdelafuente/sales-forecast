@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AppComponent } from './app.component';
-import { RouterOutlet } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { provideHttpClient } from '@angular/common/http';
-
-
+import { RouterLink, RouterModule, RouterOutlet, Routes } from '@angular/router';
+import { DashboardComponent } from './features/dashboard/dashboard.component';
+import { MaterialModule } from './shared/modules/material.module';
+import { AppRoutesModule } from './app.routes';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, DashboardComponent],
   imports: [
     CommonModule,
-    RouterOutlet,
     BrowserModule,
+    AppRoutesModule,
+    MaterialModule
   ],
   providers: [provideHttpClient()],
   bootstrap: [ AppComponent ]
 })
+  
 export class AppModule { }
