@@ -80,65 +80,81 @@ export class DashboardComponent {
   }
   
   uploadFile(event: any) {
+    console.log("event:", event);
+
     const file = event.target.files[0];
+
+    if (!file) {
+      console.log("No file selected");
+      return;
+    }
+
+    console.log("file:", file);
 
     const reader = new FileReader();
 
-    reader.onload = (e: any) => {
+    reader.onload = async (e: any) => {
+      console.log("e:", e);
+
       const data = new Uint8Array(e.target.result);
+      console.log("data:", data);
 
       try {
         const workbook = new ExcelJS.Workbook();
-        workbook.xlsx.load(data).then(() => {
-          const worksheet = workbook.getWorksheet(1);
-          if (worksheet) {
-            this.processExcelData(worksheet);
-          } else {
-            console.log("Error processing worksheet", worksheet);
-          }
-        })
+        console.log("workbook:", workbook);
+
+        await workbook.xlsx.load(data);
+        const worksheet = workbook.getWorksheet(1);
+        console.log("worksheet:", worksheet);
+
+        if (worksheet) {
+          this.processExcelData(worksheet);
+        } else {
+          console.log("Error processing worksheet", worksheet);
+        }
       } catch (error) {
-        console.log("Error uploading the file:", error)
+        console.log("Error uploading the file:", error);
       }
-    }
-    const workbook = new ExcelJS.Workbook();
-    workbook.xlsx.load(file);
+    };
 
-    const worksheet = workbook.getWorksheet(1);
-    const fileData: UploadSalesModel[] = [];
+    reader.onerror = (error) => {
+      console.log("Error reading file:", error);
+    };
 
-    
+    reader.readAsArrayBuffer(file); // Read the file to trigger onload event
   }
 
   processExcelData(worksheet: ExcelJS.Worksheet) {
     const fileData: UploadSalesModel[] = [];
 
-    worksheet.eachRow((row) => {
+    worksheet.eachRow((row, rowNumber) => {
+      // Skip the header row if there's one
+      if (rowNumber === 1) return;
+
       const rowData = {
-        transactionId: row.getCell(1).value as Number,
-        transactionDate: row.getCell(2).value as Date,
-        transactionQuantity: row.getCell(3).value as Number,
-        storeLocation: row.getCell(4).value as String,
-        unitPrice: row.getCell(5).value as Number,
-        productCategory: row.getCell(6).value as String,
-        productType: row.getCell(7).value as String,
-        productDetail: row.getCell(8).value as String,
+        transactionId: row.getCell(1).value as number,
+        transactionDate: new Date(row.getCell(2).value as string),
+        transactionQuantity: row.getCell(3).value as number,
+        storeLocation: row.getCell(4).value as string,
+        unitPrice: row.getCell(5).value as number,
+        productCategory: row.getCell(6).value as string,
+        productType: row.getCell(7).value as string,
+        productDetail: row.getCell(8).value as string,
       };
+
       fileData.push(rowData);
     });
 
     console.log("fileData:", fileData);
 
-    // this.dashboardService
-    //   .uploadSalesData(fileData)
-    //   .subscribe({
-    //     next: (data: any) => {
-    //       console.log(data);
-    //     },
-    //     error: (error: any) => {
-    //       console.log(error);
-    //     }
-    //   });
+    this.dashboardService.uploadSalesData(fileData).subscribe({
+      next: (data: any) => {
+        console.log("Upload successful:", data);
+      },
+      error: (error: any) => {
+        console.log("Error uploading data:", error);
+      }
+    });
   }
 
 }

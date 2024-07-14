@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 
 export const routes: Routes = [
@@ -16,4 +15,4 @@ export const routes: Routes = [
   exports: [RouterModule]
 })
   
-export class AppRoutesModule { }
+export class AppRoutingModule { }

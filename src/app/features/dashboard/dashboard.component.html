@@ -7,7 +7,8 @@
         <p class="text-center">Upload your sales data using this 
           <button (click)="generateExcel()"><u class="text-blue-700">Excel file template</u></button> 
           to see your sales forecast for the next 12 months.</p>
-        <button mat-raised-button (click)="uploadFile($event)"><mat-icon>upload</mat-icon>Upload file</button>
+        <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file">
+        <button type="file" mat-raised-button (click)="fileInput.click()"><mat-icon>upload</mat-icon>Upload file</button>
       </div>
     </mat-card-content>
   </mat-card>
