@@ -1,1 +1,1 @@
-export const storeNames =  ['Cafe Dela Fuente'];
+export const stores =  ['My Cofee Shop - North', 'My Cofee Shop - South', 'My Cofee Shop - Main'];

@@ -1,19 +1,21 @@
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
+import { UploadSalesModel } from '../../shared/models/upload-sales.model';
+import { environment } from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
-  private baseUrl = "INSERT AZURE FUNCTIONS API"
   constructor(private http: HttpClient) { }
-  
-  uploadSalesData(salesData: FormData): Observable<any> {
-    return this.http.post(this.baseUrl, salesData, { observe: 'response' })
-      .pipe(map((response: HttpResponse<any>) => {
-        return response;
-    }))
+
+  uploadSalesData(data: UploadSalesModel[]): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post(environment.baseApiUrl + '/api/process-forecast?code=' + environment.apiKey, data, { headers });
   }
 }
