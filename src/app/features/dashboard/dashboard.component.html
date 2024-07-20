@@ -1,15 +1,23 @@
-<div class="w-full h-full flex flex-col justify-center items-center">
-  <h3>Sales Forecast</h3>
-  <mat-card appearance="outlined" class="w-[320px] h-auto">
-    <mat-card-content>
-      <div class="w-full h-full flex flex-col justify-center items-center">
-
-        <p class="text-center">Upload your sales data using this 
-          <button (click)="generateExcel()"><u class="text-blue-700">Excel file template</u></button> 
-          to see your sales forecast for the next 12 months.</p>
-        <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file">
-        <button type="file" mat-raised-button (click)="fileInput.click()"><mat-icon>upload</mat-icon>Upload file</button>
-      </div>
-    </mat-card-content>
-  </mat-card>
+<!-- Form Container -->
+<div [ngClass]="{'w-full h-full flex flex-col justify-center items-center transition-transform duration-500': !chartVisible, 'w-full py-10 flex flex-col justify-center items-center transition-transform duration-500': chartVisible}" class="transition-all">
+  <div class="w-full h-full flex flex-col justify-center items-center">
+    <h3 class="text-xl font-bold mb-4">Sales Forecast</h3>
+    <mat-card appearance="outlined" class="w-[320px] h-auto">
+      <mat-card-content>
+        <div class="w-full h-full flex flex-col justify-center items-center">
+          <p class="text-center">Upload your sales data using this 
+            <button (click)="generateExcel()" class="text-blue-700 underline"><u>Excel file template</u></button> 
+            to see your sales forecast for the next 12 months.</p>
+          <input hidden (change)="uploadFile($event)" #fileInput type="file" id="file">
+          <button type="file" mat-raised-button (click)="fileInput.click()">
+            <mat-icon>upload</mat-icon>Upload file
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
 </div>
+
+<!-- Chart Container -->
+<canvas *ngIf="chartVisible" #salesChart class="w-3/4 h-[600px] mx-auto mt-6 pb-10"></canvas>
